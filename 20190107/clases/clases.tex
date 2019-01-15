@@ -1,0 +1,185 @@
+\documentclass[11pt,spanish]{article}
+\usepackage[spanish]{babel}
+\selectlanguage{spanish}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+
+\DeclareMathOperator*{\E}{\mathbb{E}}
+\let\Pr\relax
+\DeclareMathOperator*{\Pr}{\mathbb{P}}
+
+\newcommand{\eps}{\varepsilon}
+\newcommand{\inprod}[1]{\left\langle #1 \right\rangle}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{
+      \hbox to 5.78in { {\bf Arena Analytics } \hfill #2 }
+      \vspace{4mm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{2mm}
+      \hbox to 5.78in { {\em #3 \hfill #4} }
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Escriba: #4}{Sesi\'{o}n #1}}
+
+\newtheorem{theorem}{Teorema}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observaci\'{o}n}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{assumption}[theorem]{Suposición}
+
+% 1-inch margins, from fullpage.sty by H.Partl, Version 2, Dec. 15, 1988.
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 8.9in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+
+\parindent 0in
+\parskip 1.5ex
+
+\begin{document}
+
+\lecture{1: Clases Latentes, 1/Enero/2019}{Invierno 2019}{Rodrigo Ibarra}{Rodolfo Navarrete P\'{e}rez}
+
+
+
+
+
+\section{Visión General}
+
+El Análisis de Clases Latentes se utiliza para calcular clases implícitas 
+en nuestros datos y poder clasificar datos de acuerdo a estas clases.
+ACL funciona sin necesidad de definir una métrica sobre las variables observadas, 
+por esto es una técnica apta para determinar clusters en datasets con variables discretas o
+donde la introducción de una métrica carecería de sentido.
+
+
+
+
+
+\section{Definiciones y Teoremas}
+
+En esta sección se definen los teoremas y definiciones a invocar.
+
+\begin{definition}(Probabilidad condicional)\label{probcond}
+	Sean A y B eventos, se define la probabilidad condicional de la siguiente manera:
+	\[ P(A|B) = \frac{P(A \cap B)}{P(B)} \]
+\end{definition}
+
+\begin{theorem}(Teorema de Bayes)\label{bayes}
+	Dados dos eventos $A$ y $B$ se cumple: 
+	\[ P(A|B) P(B) = P(B|A) P(A) \]
+\end{theorem}
+
+
+
+
+
+\section{Clases Latentes}
+
+Sean \(X_1,X_2,\ldots,X_n\) variables aleatorias observadas que toman valores discretos.
+
+\begin{assumption}[Existencia de Clases Latentes]\label{existesia}
+	Existe una variable aleatoria \(Y\) no observada que toma valores discretos. 
+	Estos valores son \(0,1,\ldots,m\).
+\end{assumption}
+
+\begin{assumption}[Independencia Condicional]\label{independencia}
+	Las variables aleatorias observadas \(X\) son independientes dada \(Y\). 
+	\[P(X_1=x_1 \ldots X_n=x_n|Y=i) = \prod_{j=1}^{n} P(X_j=x_j|Y=i)\]
+\end{assumption}
+
+Adicionalmente, supondremos que se conoce la distribución $P(Y=j)$ y las distribuciones $P(X_j=x_j|Y=i)$. 
+En la práctica la forma de estas distribuciones se suponen y sus parámetros se ajustan con datos.
+
+Nuestra tarea será calcular la probabilidad de que $Y$ tome un cierto valor dadas las variables observadas. 
+En otras palabras, se quiere saber dentro que clase cae una observación $x_1,x_2 \ldots x_n$ dada, esto se puede 
+hacer expresándola en términos de cantidades conocidas o supuestas.
+
+Por el teorema de Bayes (teorema \ref{bayes}),
+\begin{equation}
+	\label{ydadox}
+	P(Y=k|X_1=x_1 \ldots X_n=x_n) = \frac{ P(X_1=x_1 \ldots X_n=x_n|Y=k) P(Y=k) }{P(X_1=x_1 \ldots X_n=x_n)}
+\end{equation}
+Se dividiran estas notas en el tratamiento del numerador y del denominador. 
+
+\subsection{El Numerador}
+
+El numerador de la ecuación \ref{ydadox} se puede descomponer por medio de independencia condicional:
+\begin{equation}
+	\label{ydadoxUp}
+	P(Y=k) P(X_1=x_1 \ldots X_n=x_n|Y=k) = P(Y=k) \prod_{j=1}^{n} P(X_j=x_j|Y=k) 
+\end{equation}
+
+\subsection{El Denominador}
+
+El denominador de la ecuación \ref{ydadox} se puede expresar como una suma de probabilidades:
+\begin{equation}
+	\label{ydadoxDownInter}
+	P(X_1=x_1 \ldots X_n=x_n) = \sum_{i=1}^{m} P(X_1=x_1 \ldots X_n=x_n, Y=i)
+\end{equation}
+Ahora se requiere expresar los sumandos en términos de variables conocidas.
+
+Considérese la probabilidad de tener una observación $x$ y una clase latente $j$, 
+por definición de probabilidad condicional (definición \ref{probcond}):
+\begin{equation*}
+	P(X_1=x_1 \ldots X_n=x_n, Y=i) =  P(Y=i) P(X_1=x_1 \ldots X_n=x_n | Y=i)
+\end{equation*}
+Aplicando independencia condicional: 
+\begin{equation*}
+	P(X_1=x_1 \ldots X_n=x_n, Y=i) =  P(Y=i) \prod_{j=1}^{n} P(X_j=x_j | Y=i)
+\end{equation*}
+Sustituyendo en la ecuación \ref{ydadoxDownInter} se tiene el denominador de la ecuación \ref{ydadox}:  
+\begin{equation}
+	\label{ydadoxDown}
+	P(X_1=x_1 \ldots X_n=x_n) = \sum_{i=1}^{m} P(Y=i) \prod_{j=1}^{n} P(X_j=x_j | Y=i)
+\end{equation}
+
+\subsection{El Modelo de Clases Latentes}
+
+Se han calculado el numerador (ecuación \ref{ydadoxUp}) y el denominador (ecuación \ref{ydadoxDown}) de la ecuación \ref{ydadox}. 
+Al sustituir se obtiene la probabilidad de observar una clase $j$ dada una observación de $x$: 
+\begin{equation}
+	\label{modelo}
+	P(Y=k|X_1=x_1 \ldots X_n=x_n) = \frac{P(Y=k) \prod_{j=1}^{n} P(X_j=x_j|Y=k)}
+		{ \sum_{i=1}^{m} P(Y=i) \prod_{j=1}^{n} P(X_j=x_j | Y=i) }
+\end{equation}
+Nótese que esto nos da la probabilidad de tener la clase $j$ dada una observación $x$ en términos de $1+n*m$ distribuciones de probabilidad:
+\begin{itemize}
+	\item {$P(Y=i)$} Esta distribución es conocida, ya que como $Y$ es discreta solamente puede obedecer una distribución de Bernoulli o multinoulli. Esta es una sola distribución. 
+\item {$P(X_j=x_j | Y=i)$} La distribución de cada $X_j$ dado $Y$ es escogida por nosotros (es una suposición del modelo) y si $X_j$ es discreta también solamente puede ser Bernoulli o multinoulli con parámetros dependientes de $Y=j$. Estas son $n*m$ distribuciones, ya que hay n distribuciones por cada clase latente.
+\end{itemize}
+
+Los parámetros de estas distribuciones se estiman por medio de Máxima Verosimilitud (dados los datos). 
+Esta estimación esta fuera del alcance de esta sesión pero 
+lo que importa es que en principio son distribuciones que se suponen o conocen y 
+cuyos parámetros se pueden estimar al tener datos con que ajustarlos.
+
+\bibliographystyle{alpha}
+
+\begin{thebibliography}{42}
+
+\bibitem{AlonMS99}
+Noga~Alon, Yossi~Matias, Mario~Szegedy.
+\newblock The Space Complexity of Approximating the Frequency Moments.
+\newblock {\em J. Comput. Syst. Sci.}, 58(1):137--147, 1999.
+
+\end{thebibliography}
+
+\end{document}
