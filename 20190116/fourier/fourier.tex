@@ -1,0 +1,177 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+
+\DeclareMathOperator*{\E}{\mathbb{E}}
+\let\Pr\relax
+\DeclareMathOperator*{\Pr}{\mathbb{P}}
+
+\newcommand{\eps}{\varepsilon}
+\newcommand{\inprod}[1]{\left\langle #1 \right\rangle}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\handout}[5]{
+  \noindent
+  \begin{center}
+  \framebox{
+    \vbox{
+      \hbox to 5.78in { {\bf Arena Analytics } \hfill #2 }
+      \vspace{4mm}
+      \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+      \vspace{2mm}
+      \hbox to 5.78in { {\em #3 \hfill #4} }
+    }
+  }
+  \end{center}
+  \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Escriba: #4}{Sesi\'{o}n #1}}
+
+\newtheorem{theorem}{Teorema}
+\newtheorem{corollary}[theorem]{Corolario}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{observation}[theorem]{Observación}
+\newtheorem{proposition}[theorem]{Proposición}
+\newtheorem{definition}[theorem]{Definición}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{fact}[theorem]{Hecho}
+\newtheorem{assumption}[theorem]{Suposición}
+
+% 1-inch margins, from fullpage.sty by H.Partl, Version 2, Dec. 15, 1988.
+\topmargin 0pt
+\advance \topmargin by -\headheight
+\advance \topmargin by -\headsep
+\textheight 8.9in
+\oddsidemargin 0pt
+\evensidemargin \oddsidemargin
+\marginparwidth 0.5in
+\textwidth 6.5in
+
+\parindent 0in
+\parskip 1.5ex
+
+\begin{document}
+
+\lecture{2: Descomposición de Fourier, 16/Enero/2019}{Invierno 2019}{Rodolfo Navarrete Pérez}{Rodolfo Navarrete Pérez}
+
+\section{Visión general}
+
+PENDIENDTE
+
+
+
+
+
+\section{Definiciones y Teoremas}
+
+Sea $T$ un número real positivo, consideramos sólamente funciones reales.
+
+\begin{definition}(Periodicidad)\label{periodicidad}
+	Una función es perdiódica de periodo T se cumple la siguiente identidad: 
+	\[ f(x+T) = f(x) \quad \forall x \in \mathbb{R} \] 
+\end{definition}
+
+\begin{definition}(Frecuencia angular)\label{omega}
+	La frecuencia angular de una función periódica de periodo T esta definida por:
+	\[ \omega = 2 \pi / T \]
+	Adicionalmente, se definen las frecuencias armónicas de T como: 
+	\[ \omega_n = n \omega \quad \forall n \in \mathbb{N} \quad n>0 \]
+\end{definition}
+
+Es común abusar de la notación y definir $\omega_0, \omega_{-1}, \ldots$ de la misma manera.
+
+\begin{fact}(Ortogonalidad de funciones trigonométricas)\label{ortogonalidad}
+	Sean $n$ y $m$ números enteros mayores o iguales a cero tales que $n+m > 0$ (sólamente uno puede ser cero).
+	Entonces, para cada $n$ y $m$ se cumplen las siguientes identidades:
+	\begin{equation*}
+		\begin{split} 
+			\int_{-T/2}^{T/2} \sin(n \omega x) \cos(m \omega x) &= 0  \\
+			\int_{-T/2}^{T/2} \sin(n \omega x) \sin(m \omega x) &= T/2 \delta_{nm} \\ 
+			\int_{-T/2}^{T/2} \cos(n \omega x) \cos(m \omega x) &= T/2 \delta_{nm} \\
+		\end{split} 
+	\end{equation*}
+	Donde $\omega = 2 \pi / T$ y $\delta_{nm}$ es la Delta de Kronecker:
+	\[ \delta_{nm} = 
+		\begin{cases} 
+			1 & \mbox{si } n=m \\
+			0 & \mbox{si } n \neq m 
+		\end{cases} \]
+\end{fact}
+
+\begin{definition}(Producto interno)\label{producto}
+	Sean $f$ y $g$ funciones reales periódicas de periodo T, se define su producto interno como: 
+	\[ <f,g> = \int_{-T/2}^{T/2} f(x) g(x) dx \]
+\end{definition}
+
+La cantidad definida en como ``producto interno" en la definición \ref{producto} cumple los requisitos de ser un producto interno 
+del espacio vectorial formado por las funciones periódicas de periodo $T$ (conmutatividad, bilinealidad, positivo definido). 
+Las demostraciones de que las funciones periódicas forman un espacio vectorial 
+y de que el producto definido por su integral es en efecto un producto interno 
+no se darán en estas notas.
+
+\section{Descomposición de Fourier}
+
+\begin{equation}
+	dsa
+\end{equation}
+
+
+\subsection{Blah blah blah}
+Here is a subsection.
+
+\subsubsection{Blah blah blah}
+Here is a subsubsection. You can use these as well.
+
+\subsection{Using Boldface}
+Make sure to use \textbf{lots} of {\bf boldface}.
+
+\paragraph{Question:}
+How would you use boldface?
+
+\paragraph{Example:}
+This is an example showing how to use boldface to 
+help organize your lectures.
+
+
+\paragraph{Some Formatting.}
+Here is some formatting that you can use in your notes:
+\begin{itemize}
+\item {\em Item One} -- This is the first item.
+\item {\em Item Two} -- This is the second item.
+\item \dots and here are other items.
+\end{itemize}
+
+If you need to number things, you can use this style:
+\begin{enumerate}
+\item {\em Item One} -- Again, this is the first item.
+\item {\em Item Two} -- Again, this is the second item.
+\item \dots and here are other items.
+\end{enumerate}
+
+\paragraph{Bibliography.}
+Please give real bibliographical citations for the papers that we
+mention in class. See below for how to include a bibliography section.
+If you use BibTeX, integrate the .bbl file into your .tex
+source. You should reference papers like this: ``The tug of war sketch
+originates in a paper by Alon, Matias and Szegedy \cite{AlonMS99}.''
+In general, the name of the authors should appear in text at most once 
+(for the first citation); further citations look like: ``Our proof follows 
+that of \cite{AlonMS99}''.
+
+Take a look at previous lectures (TeX files are available) to see the
+details. A excellent source for bibliographical citations is
+DBLP. Just Google DBLP and an author's name.
+
+
+\bibliographystyle{alpha}
+
+\begin{thebibliography}{42}
+
+\bibitem{AlonMS99}
+Noga~Alon, Yossi~Matias, Mario~Szegedy.
+\newblock The Space Complexity of Approximating the Frequency Moments.
+\newblock {\em J. Comput. Syst. Sci.}, 58(1):137--147, 1999.
+
+\end{thebibliography}
+
+\end{document}
